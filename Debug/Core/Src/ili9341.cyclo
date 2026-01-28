@@ -1,0 +1,13 @@
+../Core/Src/ili9341.c:21:13:ILI9341_WriteCommand	1
+../Core/Src/ili9341.c:28:13:ILI9341_WriteData	1
+../Core/Src/ili9341.c:35:13:ILI9341_WriteData16	1
+../Core/Src/ili9341.c:45:13:ILI9341_SetAddressWindow	1
+../Core/Src/ili9341.c:57:6:ILI9341_Init	1
+../Core/Src/ili9341.c:198:6:ILI9341_FillScreen	2
+../Core/Src/ili9341.c:215:6:ILI9341_DrawPixel	3
+../Core/Src/ili9341.c:222:6:ILI9341_SetRotation	5
+../Core/Src/ili9341.c:240:6:ILI9341_FillRect	6
+../Core/Src/ili9341.c:261:6:ILI9341_DrawFilledCircle	5
+../Core/Src/ili9341.c:287:6:ILI9341_DrawChar	6
+../Core/Src/ili9341.c:305:6:ILI9341_DrawText	6
+../Core/Src/ili9341.c:330:6:ILI9341_DrawImage	6
