@@ -93,14 +93,14 @@ static void MX_USART1_UART_Init(void);
 #define SCK_PORT_2 GPIOA
 
 // Load Cell 1 calibration
-int32_t tare1 = -145000;           // No-load raw reading
-float knownOriginal1 = 200000;     // Known weight in mg (200g)
-float knownHX711_1 = -167100;       // HX711 value when 200g applied
+int32_t tare1 = -145000;           // HX711 raw at weight 0
+float knownOriginal1 = 200000;     // Known weight in mg
+float knownHX711_1 = -167100;       // HX711 value when known weight applied
 
 // Load Cell 2 calibration
-int32_t tare2 = -639000;           // No-load raw reading
-float knownOriginal2 = 200000;     // Known weight in mg (200g)
-float knownHX711_2 = -661000;       // HX711 value when 200g applied
+int32_t tare2 = -639000;
+float knownOriginal2 = 200000;
+float knownHX711_2 = -661000;
 
 void microDelay(uint16_t delay)
 {
@@ -127,7 +127,6 @@ int32_t getHX711(GPIO_TypeDef* dtPort, uint16_t dtPin, GPIO_TypeDef* sckPort, ui
     if(HAL_GPIO_ReadPin(dtPort, dtPin) == GPIO_PIN_SET)
       data ++;
   }
-  // Proper sign extension for 24-bit two's complement
   if(data & 0x800000)
     data |= 0xFF000000;
   HAL_GPIO_WritePin(sckPort, sckPin, GPIO_PIN_SET);
@@ -329,11 +328,17 @@ int main(void)
 		  char buf[200];
 		  sprintf(buf, "MInh Weight:%d gram | Kiet Weight:%d gram\r\n", weight_MInh, weight_Kiet);
 		  HAL_UART_Transmit(&huart1, (const uint8_t*)buf, strlen(buf), 100);
-    }
-	  if (game_state == 0 || game_state == 2)
-	  	        continue;
-	  //HAL_Delay(200);
-	  main_game_logic(weight_MInh, weight_Kiet);
+	  }
+	  if (game_state == 0){
+		  HAL_GPIO_TogglePin(GPIOG, GPIO_PIN_13);
+		  HAL_Delay(500);
+	  }
+	  else if (game_state == 2){
+		  HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_7);
+		  HAL_Delay(500);
+	  }
+	  else
+		  main_game_logic(weight_MInh, weight_Kiet);
   }
   /* USER CODE END 3 */
 }
@@ -539,6 +544,7 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOC_CLK_ENABLE();
   __HAL_RCC_GPIOA_CLK_ENABLE();
   __HAL_RCC_GPIOD_CLK_ENABLE();
+  __HAL_RCC_GPIOG_CLK_ENABLE();
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
@@ -551,7 +557,10 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12|GPIO_PIN_13, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_9, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOG, GPIO_PIN_13, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_7|GPIO_PIN_9, GPIO_PIN_RESET);
 
   /*Configure GPIO pin : PC2 */
   GPIO_InitStruct.Pin = GPIO_PIN_2;
@@ -586,17 +595,24 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
 
+  /*Configure GPIO pin : PG13 */
+  GPIO_InitStruct.Pin = GPIO_PIN_13;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : PB7 PB9 */
+  GPIO_InitStruct.Pin = GPIO_PIN_7|GPIO_PIN_9;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
   /*Configure GPIO pin : PB8 */
   GPIO_InitStruct.Pin = GPIO_PIN_8;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
-
-  /*Configure GPIO pin : PB9 */
-  GPIO_InitStruct.Pin = GPIO_PIN_9;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
   /* EXTI interrupt init*/

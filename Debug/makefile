@@ -1,6 +1,6 @@
 ################################################################################
 # Automatically-generated file. Do not edit!
-# Toolchain: GNU Tools for STM32 (12.3.rel1)
+# Toolchain: GNU Tools for STM32 (13.3.rel1)
 ################################################################################
 
 -include ../makefile.init
@@ -60,8 +60,8 @@ all: main-build
 main-build: main_project.elf secondary-outputs
 
 # Tool invocations
-main_project.elf main_project.map: $(OBJS) $(USER_OBJS) C:\Users\11\STM32CubeIDE\workspace_1.17.0\spi_project\STM32F429ZITX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "main_project.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\11\STM32CubeIDE\workspace_1.17.0\spi_project\STM32F429ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="main_project.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+main_project.elf main_project.map: $(OBJS) $(USER_OBJS) /Users/leducanhvu/Downloads/stm32-tug-of-war-project/STM32F429ZITX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "main_project.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"/Users/leducanhvu/Downloads/stm32-tug-of-war-project/STM32F429ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="main_project.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
