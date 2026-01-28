@@ -164,7 +164,6 @@ int weigh(GPIO_TypeDef* dtPort, uint16_t dtPin, GPIO_TypeDef* sckPort, uint16_t 
 }
 
 
-// Draw welcome screen with start button
 void draw_welcome_screen() {
   ILI9341_FillScreen(ILI9341_BLACK);
   ILI9341_DrawImage(0, 0, &kiet_start_image);
@@ -174,6 +173,7 @@ void draw_welcome_screen() {
   ILI9341_FillRect(0, 100, 240, 2, ILI9341_YELLOW);
   ILI9341_FillRect(0, 220, 240, 2, ILI9341_YELLOW);
 }
+
 void draw_end_screen(){
 	ILI9341_FillScreen(ILI9341_BLACK);
 	if (winner == 1){ // MInh, draw kiet_lose
@@ -186,6 +186,7 @@ void draw_end_screen(){
 	}
 }
 void draw_rope(int16_t pos);
+
 void draw_game_screen(){
 	ILI9341_FillScreen(ILI9341_BLACK);
 	ILI9341_DrawImage(0, 0, &kiet_start_image);
@@ -194,6 +195,7 @@ void draw_game_screen(){
 	ILI9341_FillRect(0, 220, 240, 2, ILI9341_YELLOW);
 	draw_rope(160);
 }
+
 void draw_rope(int16_t pos) {
   static int16_t lastPos = -1;
   
@@ -324,9 +326,9 @@ int main(void)
 	  weight_MInh = weigh(DT_PORT_1, DT_PIN_1, SCK_PORT_1, SCK_PIN_1, tare1, knownOriginal1, knownHX711_1) / 1000;
 	  weight_Kiet = weigh(DT_PORT_2, DT_PIN_2, SCK_PORT_2, SCK_PIN_2, tare2, knownOriginal2, knownHX711_2) / 1000;
 	  if (debug){
-      char buf[200];
-      sprintf(buf, "MInh Weight:%d gram | Kiet Weight:%d gram\r\n", weight_MInh, weight_Kiet);
-      HAL_UART_Transmit(&huart1, (const uint8_t*)buf, strlen(buf), 100);
+		  char buf[200];
+		  sprintf(buf, "MInh Weight:%d gram | Kiet Weight:%d gram\r\n", weight_MInh, weight_Kiet);
+		  HAL_UART_Transmit(&huart1, (const uint8_t*)buf, strlen(buf), 100);
     }
 	  if (game_state == 0 || game_state == 2)
 	  	        continue;
