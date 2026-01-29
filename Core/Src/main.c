@@ -141,7 +141,7 @@ int weigh(GPIO_TypeDef* dtPort, uint16_t dtPin, GPIO_TypeDef* sckPort, uint16_t 
           int32_t tare, float knownOriginal, float knownHX711)
 {
   int32_t  total = 0;
-  int32_t  samples = 10; // Faster response
+  int32_t  samples = 10;
   int32_t  validSamples = 0;
   int milligram;
   float coefficient;
@@ -184,6 +184,7 @@ void draw_end_screen(){
 		ILI9341_DrawImage(0, 40, &minh_lose_image);
 	}
 }
+
 void draw_rope(int16_t pos);
 
 void draw_game_screen(){
@@ -236,7 +237,7 @@ void draw_rope(int16_t pos) {
   lastPos = pos;
 }
 
-void main_game_logic(int weight_MInh, int weight_Kiet){
+void main_game_logic(int weight_MInh, int weight_Kiet){ // unit gram
 
   int rope_change = abs(weight_MInh - weight_Kiet) / 1000 * 2;
   if (rope_change == 0)
@@ -246,13 +247,14 @@ void main_game_logic(int weight_MInh, int weight_Kiet){
 	  rope_dir = 1;
   else
 	  rope_dir = -1;
-
+  
   for(int i = 1; i <= rope_change; i++){
 	  rope_pos += rope_dir;
 	  if(rope_pos == 95 || rope_pos == 225)
 		  break;
 	  draw_rope(rope_pos);
   }
+
   if (rope_pos == 95) {
 	  game_state = 2;
 	  winner = 2;

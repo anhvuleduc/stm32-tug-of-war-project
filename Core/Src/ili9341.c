@@ -311,7 +311,6 @@ void ILI9341_DrawText(uint16_t x, uint16_t y, const char* str, FontDef_t* font, 
             cursorY += font->FontHeight;
             cursorX = x;
         } else if(*str == '\r') {
-            // Ignore carriage return
         } else {
             if(cursorX + font->FontWidth >= ILI9341_WIDTH) {
                 cursorY += font->FontHeight;
@@ -339,7 +338,7 @@ void ILI9341_DrawImage(uint16_t x, uint16_t y, Image* img) {
     LCD_DC_HIGH();
     LCD_CS_LOW();
     
-    // Send pixel data one at a time
+    // Send pixel data
     uint8_t buffer[2];
     for(uint32_t i = 0; i < img->width * img->height; i++) {
         uint16_t pixel = img->data[i];
