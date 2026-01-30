@@ -162,17 +162,6 @@ int weigh(GPIO_TypeDef* dtPort, uint16_t dtPin, GPIO_TypeDef* sckPort, uint16_t 
   return milligram;
 }
 
-
-void draw_welcome_screen() {
-  ILI9341_FillScreen(ILI9341_BLACK);
-  ILI9341_DrawImage(0, 0, &kiet_start_image);
-  ILI9341_DrawImage(160, 220, &minh_start_image);
-  ILI9341_DrawText(38, 130, "KEO CO CUC CANG", &Font_11x18, ILI9341_WHITE, ILI9341_RED);
-  ILI9341_DrawText(25, 178, "Press PA0 to start", &Font_11x18, ILI9341_WHITE, ILI9341_RED);
-  ILI9341_FillRect(0, 100, 240, 2, ILI9341_YELLOW);
-  ILI9341_FillRect(0, 220, 240, 2, ILI9341_YELLOW);
-}
-
 void draw_end_screen(){
 	ILI9341_FillScreen(ILI9341_BLACK);
 	if (winner == 1){ // MInh, draw kiet_lose
@@ -183,6 +172,17 @@ void draw_end_screen(){
 		ILI9341_DrawText(40, 0, "MINH LOSES", &Font_16x26, ILI9341_WHITE, ILI9341_RED);
 		ILI9341_DrawImage(0, 40, &minh_lose_image);
 	}
+}
+
+
+void draw_welcome_screen() {
+  ILI9341_FillScreen(ILI9341_BLACK);
+  ILI9341_DrawImage(0, 0, &kiet_start_image);
+  ILI9341_DrawImage(160, 220, &minh_start_image);
+  ILI9341_DrawText(38, 130, "KEO CO CUC CANG", &Font_11x18, ILI9341_WHITE, ILI9341_RED);
+  ILI9341_DrawText(25, 178, "Press PA0 to start", &Font_11x18, ILI9341_WHITE, ILI9341_RED);
+  ILI9341_FillRect(0, 100, 240, 2, ILI9341_YELLOW);
+  ILI9341_FillRect(0, 220, 240, 2, ILI9341_YELLOW);
 }
 
 void draw_rope(int16_t pos);
@@ -661,3 +661,4 @@ void assert_failed(uint8_t *file, uint32_t line)
   /* USER CODE END 6 */
 }
 #endif /* USE_FULL_ASSERT */
+
